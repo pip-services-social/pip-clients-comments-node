@@ -1,0 +1,1 @@
+export { CommentsClientFactory } from './CommentsClientFactory';
