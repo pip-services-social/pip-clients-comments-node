@@ -9,4 +9,4 @@ export { ContentTypeV1 } from './ContentTypeV1';
 export { DocumentV1 } from './DocumentV1';
 export { MemeV1 } from './MemeV1';
 export { MemeTypeV1 } from './MemeTypeV1';
-export {ReferenceV1} from './ReferenceV1'; 
+export { ReferenceV1 } from './ReferenceV1'; 
