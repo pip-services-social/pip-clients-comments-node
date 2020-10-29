@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CommentsNullClientV1 = void 0;
 const pip_services3_commons_node_1 = require("pip-services3-commons-node");
 class CommentsNullClientV1 {
     getComments(correlationId, filter, paging, callback) {

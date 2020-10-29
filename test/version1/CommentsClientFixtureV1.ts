@@ -9,6 +9,7 @@ import { MemeV1 } from '../../src/version1/MemeV1';
 import { CommentV1 } from '../../src/version1/CommentV1';
 import { ContentV1 } from '../../src/version1/ContentV1';
 import { ReferenceV1 } from '../../src/version1/ReferenceV1';
+import { CommentStateV1 } from '../../src/version1/CommentStateV1';
 
 let refs = [];
 let ref1: ReferenceV1 ={
@@ -43,9 +44,11 @@ memes.push(meme1);
 
 let COMMENT1: CommentV1 = {
     id: '1',
+    deleted: false,
+    comment_state: CommentStateV1.Submited,
     creator_id: '1',
     creator_name: 'Evgeniy',
-    parent_ids: ['5'],
+    parent_ids: [],
     refs: refs,
     create_time:  new Date("2018-07-14"),
     content: contents,
@@ -54,18 +57,22 @@ let COMMENT1: CommentV1 = {
 };
 let COMMENT2: CommentV1 = {
     id: '2',
+    deleted: false,
+    comment_state: CommentStateV1.Submited,
     creator_id: '2',
     creator_name: 'Tom',
     refs: refs,
     create_time:  new Date("2020-07-14"),
-    parent_ids: ['3','4'],
+    parent_ids: ['1'],
 };
 let COMMENT3: CommentV1 = {
     id: '3',
+    deleted: false,
+    comment_state: CommentStateV1.Submited,
     creator_id: '2',
-    creator_name: 'Tomas',
-    parent_ids: ['2','3'],
+    creator_name: 'Tom',
     create_time:  new Date("2022-07-14"),
+    parent_ids: ['1','2'],
 };
 
 export class CommentsClientFixtureV1 {
@@ -203,13 +210,13 @@ export class CommentsClientFixtureV1 {
                     this._client.getComments(
                         null,
                         FilterParams.fromValue({
-                            parent_id: '4'
+                            parent_id: '1'
                         }),
                         new PagingParams(),
                         (err, comments) => {
                             assert.isNull(err);
                             assert.isObject(comments);
-                            assert.lengthOf(comments.data, 1);
+                            assert.lengthOf(comments.data, 2);
                             
                             callback();
                         }
@@ -221,14 +228,14 @@ export class CommentsClientFixtureV1 {
                 this._client.getComments(
                     null,
                     FilterParams.fromValue({
-                        parent_id: '3'
+                        parent_id: '2'
                     }),
                     new PagingParams(),
                     (err, comments) => {
                         assert.isNull(err);
 
                         assert.isObject(comments);
-                        assert.lengthOf(comments.data, 2);
+                        assert.lengthOf(comments.data, 1);
 
                         callback();
                     }
@@ -240,7 +247,7 @@ export class CommentsClientFixtureV1 {
             this._client.getComments(
                 null,
                 FilterParams.fromValue({
-                    parent_ids: '2,5'
+                    parent_ids: '1,2'
                 }),
                 new PagingParams(),
                 (err, comments) => {
@@ -297,7 +304,7 @@ export class CommentsClientFixtureV1 {
     }
 
     testCrudOperations(done) {
-        let comment1: CommentV1;
+        let comment3: CommentV1;
 
         async.series([
         // // Create items
@@ -316,7 +323,7 @@ export class CommentsClientFixtureV1 {
                         assert.isObject(page);
                         assert.lengthOf(page.data, 3);
 
-                        comment1 = page.data[0];
+                        comment3 = page.data[2];
 
                         callback();
                     }
@@ -324,17 +331,17 @@ export class CommentsClientFixtureV1 {
             },
         // Update the comment
             (callback) => {
-                comment1.creator_name = 'Richard';
+                comment3.creator_name = 'Richard';
 
                 this._client.updateComment(
                     null,
-                    comment1,
+                    comment3,
                     (err, comment) => {
                         assert.isNull(err);
 
                         assert.isObject(comment);
                         assert.equal(comment.creator_name, 'Richard');
-                        assert.equal(comment.id, comment1.id);
+                        assert.equal(comment.id, comment3.id);
 
                         callback();
                     }
@@ -344,7 +351,7 @@ export class CommentsClientFixtureV1 {
             (callback) => {
                 this._client.deleteCommentById(
                     null,
-                    comment1.id,
+                    comment3.id,
                     (err) => {
                         assert.isNull(err);
 
@@ -356,11 +363,32 @@ export class CommentsClientFixtureV1 {
             (callback) => {
                 this._client.getCommentById(
                     null,
-                    comment1.id,
+                    comment3.id,
                     (err, comment) => {
                         assert.isNull(err);
 
                         assert.isNull(comment || null);
+
+                        callback();
+                    }
+                );
+            },
+            // Try to get delete comment
+            (callback) => {
+                this._client.getCommentById(
+                    null,
+                    COMMENT1.id,
+                    (err, comment) => {
+                        assert.isNull(err);
+                        assert.isObject(comment);
+                        assert.equal(comment.id, COMMENT1.id);
+                        assert.equal(comment.creator_id, COMMENT1.creator_id);
+                        assert.equal(comment.creator_name, COMMENT1.creator_name);
+                        assert.equal(comment.refs[0].type, COMMENT1.refs[0].type);
+                        assert.equal(comment.content[0].type, COMMENT1.content[0].type);
+                        assert.equal(comment.memes[0].type, COMMENT1.memes[0].type);
+
+                        assert.equal(comment.children_counter, 1);
 
                         callback();
                     }
