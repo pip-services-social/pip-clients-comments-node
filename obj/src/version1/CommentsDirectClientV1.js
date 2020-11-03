@@ -47,6 +47,27 @@ class CommentsDirectClientV1 extends pip_services3_rpc_node_1.DirectClient {
             callback(err, comment);
         });
     }
+    addMemeToComment(correlationId, id, creator_id, meme_type, callback) {
+        let timing = this.instrument(correlationId, 'comments.add_comment_meme');
+        this._controller.addMemeToComment(correlationId, id, creator_id, meme_type, (err, comment) => {
+            timing.endTiming();
+            callback(err, comment);
+        });
+    }
+    removeMemeFromComment(correlationId, id, creator_id, meme_type, callback) {
+        let timing = this.instrument(correlationId, 'comments.remove_comment_meme');
+        this._controller.removeMemeFromComment(correlationId, id, creator_id, meme_type, (err, comment) => {
+            timing.endTiming();
+            callback(err, comment);
+        });
+    }
+    updateCommentState(correlationId, id, state, callback) {
+        let timing = this.instrument(correlationId, 'comments.update_comment_state');
+        this._controller.updateCommentState(correlationId, id, state, (err, comment) => {
+            timing.endTiming();
+            callback(err, comment);
+        });
+    }
 }
 exports.CommentsDirectClientV1 = CommentsDirectClientV1;
 //# sourceMappingURL=CommentsDirectClientV1.js.map

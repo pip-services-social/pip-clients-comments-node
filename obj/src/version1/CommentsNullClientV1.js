@@ -18,6 +18,15 @@ class CommentsNullClientV1 {
     deleteCommentById(correlationId, commentId, callback) {
         callback(null, null);
     }
+    addMemeToComment(correlationId, id, creator_id, meme_type, callback) {
+        callback(null, null);
+    }
+    removeMemeFromComment(correlationId, id, creator_id, meme_type, callback) {
+        callback(null, null);
+    }
+    updateCommentState(correlationId, id, state, callback) {
+        callback(null, null);
+    }
 }
 exports.CommentsNullClientV1 = CommentsNullClientV1;
 //# sourceMappingURL=CommentsNullClientV1.js.map

@@ -16,6 +16,7 @@ export class CommentsLambdaClientV1 extends CommandableLambdaClient implements I
         if (config != null)
             this.configure(ConfigParams.fromValue(config));
     }
+   
     
     public configure(config: ConfigParams): void {
         super.configure(config);
@@ -79,6 +80,47 @@ export class CommentsLambdaClientV1 extends CommandableLambdaClient implements I
             correlationId,
             {
                 comment_id: commentId
+            },
+            callback
+        );
+    }
+
+    addMemeToComment(correlationId: string, id: string, creator_id: string, meme_type: string, callback: (err: any, review: CommentV1) => void): void {
+        let timing = this.instrument(correlationId, 'comments.add_comment_meme');
+        this.callCommand(
+            'add_comment_meme',
+            correlationId,
+            {
+                id: id,
+                creator_id: creator_id,
+                meme_type: meme_type
+            },
+            callback
+        );
+    }
+    
+    removeMemeFromComment(correlationId: string, id: string, creator_id: string, meme_type: string, callback: (err: any, review: CommentV1) => void): void {
+        let timing = this.instrument(correlationId, 'comments.remove_comment_meme');
+        this.callCommand(
+            'remove_comment_meme',
+            correlationId,
+            {
+                id: id,
+                creator_id: creator_id,
+                meme_type: meme_type
+            },
+            callback
+        );
+    }
+
+    updateCommentState(correlationId: string, id: string, state: String, callback: (err: any, review: CommentV1) => void): void {
+        let timing = this.instrument(correlationId, 'comments.update_comment_state');
+        this.callCommand(
+            'update_comment_state',
+            correlationId,
+            {
+                id: id,
+                state:state
             },
             callback
         );

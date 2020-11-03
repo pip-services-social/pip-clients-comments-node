@@ -62,4 +62,28 @@ export class CommentsDirectClientV1 extends DirectClient<any> implements ICommen
             callback(err, comment);
         }); 
     }
+
+    addMemeToComment(correlationId: string, id: string, creator_id: string, meme_type: string, callback: (err: any, review: CommentV1) => void): void {
+        let timing = this.instrument(correlationId, 'comments.add_comment_meme');
+        this._controller.addMemeToComment(correlationId, id, creator_id, meme_type, (err, comment) => {
+            timing.endTiming();
+            callback(err, comment);
+        }); 
+    }
+
+    removeMemeFromComment(correlationId: string, id: string, creator_id: string, meme_type: string, callback: (err: any, review: CommentV1) => void): void {
+         let timing = this.instrument(correlationId, 'comments.remove_comment_meme');
+        this._controller.removeMemeFromComment(correlationId, id, creator_id, meme_type, (err, comment) => {
+            timing.endTiming();
+            callback(err, comment);
+        }); 
+    }
+
+    updateCommentState(correlationId: string, id: string, state: String, callback: (err: any, review: CommentV1) => void): void {
+        let timing = this.instrument(correlationId, 'comments.update_comment_state');
+        this._controller.updateCommentState(correlationId, id, state, (err, comment) => {
+            timing.endTiming();
+            callback(err, comment);
+        }); 
+    }
 }

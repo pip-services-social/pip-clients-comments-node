@@ -45,7 +45,7 @@ memes.push(meme1);
 let COMMENT1: CommentV1 = {
     id: '1',
     deleted: false,
-    comment_state: CommentStateV1.Submited,
+    comment_state: CommentStateV1.Submitted,
     creator_id: '1',
     creator_name: 'Evgeniy',
     parent_ids: [],
@@ -58,7 +58,7 @@ let COMMENT1: CommentV1 = {
 let COMMENT2: CommentV1 = {
     id: '2',
     deleted: false,
-    comment_state: CommentStateV1.Submited,
+    comment_state: CommentStateV1.Submitted,
     creator_id: '2',
     creator_name: 'Tom',
     refs: refs,
@@ -68,7 +68,7 @@ let COMMENT2: CommentV1 = {
 let COMMENT3: CommentV1 = {
     id: '3',
     deleted: false,
-    comment_state: CommentStateV1.Submited,
+    comment_state: CommentStateV1.Submitted,
     creator_id: '2',
     creator_name: 'Tom',
     create_time:  new Date("2022-07-14"),
@@ -341,6 +341,23 @@ export class CommentsClientFixtureV1 {
 
                         assert.isObject(comment);
                         assert.equal(comment.creator_name, 'Richard');
+                        assert.equal(comment.id, comment3.id);
+
+                        callback();
+                    }
+                );
+            },
+             // Update the state
+             (callback) => {
+
+                this._client.updateCommentState(
+                    null,
+                    comment3.id, CommentStateV1.Rejected,
+                    (err, comment) => {
+                        assert.isNull(err);
+
+                        assert.isObject(comment);
+                        assert.equal(comment.comment_state, CommentStateV1.Rejected);
                         assert.equal(comment.id, comment3.id);
 
                         callback();

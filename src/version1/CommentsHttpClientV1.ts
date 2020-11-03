@@ -11,7 +11,6 @@ export class CommentsHttpClientV1 extends CommandableHttpClient implements IComm
         super('v1/comments');
     }
     
-
     public getComments(correlationId: string, filter: FilterParams, paging: PagingParams,
         callback: (err: any, page: DataPage<CommentV1>) => void): void {
         this.callCommand(
@@ -74,4 +73,43 @@ export class CommentsHttpClientV1 extends CommandableHttpClient implements IComm
             callback
         );
     }
+
+    addMemeToComment(correlationId: string, id: string, creator_id: string, meme_type: string, callback: (err: any, review: CommentV1) => void): void {
+        this.callCommand(
+            'add_comment_meme',
+            correlationId,
+            {
+                id: id,
+                creator_id: creator_id,
+                meme_type: meme_type
+            },
+            callback
+        );
+    }
+
+    removeMemeFromComment(correlationId: string, id: string, creator_id: string, meme_type: string, callback: (err: any, review: CommentV1) => void): void {
+        this.callCommand(
+            'remove_comment_meme',
+            correlationId,
+            {
+                id: id,
+                creator_id: creator_id,
+                meme_type: meme_type
+            },
+            callback
+        );
+    }
+
+    updateCommentState(correlationId: string, id: string, state: String, callback: (err: any, review: CommentV1) => void): void {
+        this.callCommand(
+            'update_comment_state',
+            correlationId,
+            {
+                id: id,
+                state:state
+            },
+            callback
+        );
+    }
+
 }

@@ -40,6 +40,29 @@ class CommentsLambdaClientV1 extends pip_services3_aws_node_1.CommandableLambdaC
             comment_id: commentId
         }, callback);
     }
+    addMemeToComment(correlationId, id, creator_id, meme_type, callback) {
+        let timing = this.instrument(correlationId, 'comments.add_comment_meme');
+        this.callCommand('add_comment_meme', correlationId, {
+            id: id,
+            creator_id: creator_id,
+            meme_type: meme_type
+        }, callback);
+    }
+    removeMemeFromComment(correlationId, id, creator_id, meme_type, callback) {
+        let timing = this.instrument(correlationId, 'comments.remove_comment_meme');
+        this.callCommand('remove_comment_meme', correlationId, {
+            id: id,
+            creator_id: creator_id,
+            meme_type: meme_type
+        }, callback);
+    }
+    updateCommentState(correlationId, id, state, callback) {
+        let timing = this.instrument(correlationId, 'comments.update_comment_state');
+        this.callCommand('update_comment_state', correlationId, {
+            id: id,
+            state: state
+        }, callback);
+    }
 }
 exports.CommentsLambdaClientV1 = CommentsLambdaClientV1;
 //# sourceMappingURL=CommentsLambdaClientV1.js.map

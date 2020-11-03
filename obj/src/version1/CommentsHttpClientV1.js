@@ -34,6 +34,26 @@ class CommentsHttpClientV1 extends pip_services3_rpc_node_1.CommandableHttpClien
             comment_id: commentId
         }, callback);
     }
+    addMemeToComment(correlationId, id, creator_id, meme_type, callback) {
+        this.callCommand('add_comment_meme', correlationId, {
+            id: id,
+            creator_id: creator_id,
+            meme_type: meme_type
+        }, callback);
+    }
+    removeMemeFromComment(correlationId, id, creator_id, meme_type, callback) {
+        this.callCommand('remove_comment_meme', correlationId, {
+            id: id,
+            creator_id: creator_id,
+            meme_type: meme_type
+        }, callback);
+    }
+    updateCommentState(correlationId, id, state, callback) {
+        this.callCommand('update_comment_state', correlationId, {
+            id: id,
+            state: state
+        }, callback);
+    }
 }
 exports.CommentsHttpClientV1 = CommentsHttpClientV1;
 //# sourceMappingURL=CommentsHttpClientV1.js.map
