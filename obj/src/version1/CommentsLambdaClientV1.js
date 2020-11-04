@@ -63,6 +63,12 @@ class CommentsLambdaClientV1 extends pip_services3_aws_node_1.CommandableLambdaC
             state: state
         }, callback);
     }
+    markCommentAsDeleted(correlationId, id, callback) {
+        let timing = this.instrument(correlationId, 'comments.mark_comment_deleted');
+        this.callCommand('mark_comment_deleted', correlationId, {
+            id: id
+        }, callback);
+    }
 }
 exports.CommentsLambdaClientV1 = CommentsLambdaClientV1;
 //# sourceMappingURL=CommentsLambdaClientV1.js.map

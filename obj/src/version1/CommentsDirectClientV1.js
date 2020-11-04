@@ -68,6 +68,13 @@ class CommentsDirectClientV1 extends pip_services3_rpc_node_1.DirectClient {
             callback(err, comment);
         });
     }
+    markCommentAsDeleted(correlationId, id, callback) {
+        let timing = this.instrument(correlationId, 'comments.mark_comment_deleted');
+        this._controller.markCommentAsDeleted(correlationId, id, (err, comment) => {
+            timing.endTiming();
+            callback(err, comment);
+        });
+    }
 }
 exports.CommentsDirectClientV1 = CommentsDirectClientV1;
 //# sourceMappingURL=CommentsDirectClientV1.js.map

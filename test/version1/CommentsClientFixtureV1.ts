@@ -364,6 +364,23 @@ export class CommentsClientFixtureV1 {
                     }
                 );
             },
+            // Mark comment as deleted
+            (callback) => {
+
+                this._client.markCommentAsDeleted(
+                    null,
+                    comment3.id,
+                    (err, comment) => {
+                        assert.isNull(err);
+
+                        assert.isObject(comment);
+                        assert.equal(comment.deleted, true);
+                        assert.equal(comment.id, comment3.id);
+
+                        callback();
+                    }
+                );
+            },
         // Delete comment
             (callback) => {
                 this._client.deleteCommentById(

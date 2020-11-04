@@ -17,7 +17,6 @@ export class CommentsDirectClientV1 extends DirectClient<any> implements ICommen
         if (config != null) this.configure(thisConfig);
     }
     
-
     public getComments(correlationId: string, filter: FilterParams, paging: PagingParams,
         callback: (err: any, page: DataPage<CommentV1>) => void): void {
         let timing = this.instrument(correlationId, 'comments.get_comments');
@@ -63,7 +62,7 @@ export class CommentsDirectClientV1 extends DirectClient<any> implements ICommen
         }); 
     }
 
-    addMemeToComment(correlationId: string, id: string, creator_id: string, meme_type: string, callback: (err: any, review: CommentV1) => void): void {
+    public addMemeToComment(correlationId: string, id: string, creator_id: string, meme_type: string, callback: (err: any, review: CommentV1) => void): void {
         let timing = this.instrument(correlationId, 'comments.add_comment_meme');
         this._controller.addMemeToComment(correlationId, id, creator_id, meme_type, (err, comment) => {
             timing.endTiming();
@@ -71,7 +70,7 @@ export class CommentsDirectClientV1 extends DirectClient<any> implements ICommen
         }); 
     }
 
-    removeMemeFromComment(correlationId: string, id: string, creator_id: string, meme_type: string, callback: (err: any, review: CommentV1) => void): void {
+    public removeMemeFromComment(correlationId: string, id: string, creator_id: string, meme_type: string, callback: (err: any, review: CommentV1) => void): void {
          let timing = this.instrument(correlationId, 'comments.remove_comment_meme');
         this._controller.removeMemeFromComment(correlationId, id, creator_id, meme_type, (err, comment) => {
             timing.endTiming();
@@ -79,11 +78,20 @@ export class CommentsDirectClientV1 extends DirectClient<any> implements ICommen
         }); 
     }
 
-    updateCommentState(correlationId: string, id: string, state: String, callback: (err: any, review: CommentV1) => void): void {
+    public updateCommentState(correlationId: string, id: string, state: String, callback: (err: any, review: CommentV1) => void): void {
         let timing = this.instrument(correlationId, 'comments.update_comment_state');
         this._controller.updateCommentState(correlationId, id, state, (err, comment) => {
             timing.endTiming();
             callback(err, comment);
         }); 
     }
+
+    public markCommentAsDeleted(correlationId: string, id: string, callback: (err: any, review: CommentV1) => void): void {
+        let timing = this.instrument(correlationId, 'comments.mark_comment_deleted');
+        this._controller.markCommentAsDeleted(correlationId, id, (err, comment) => {
+            timing.endTiming();
+            callback(err, comment);
+        }); 
+    }
+    
 }

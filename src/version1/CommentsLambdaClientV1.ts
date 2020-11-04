@@ -16,8 +16,8 @@ export class CommentsLambdaClientV1 extends CommandableLambdaClient implements I
         if (config != null)
             this.configure(ConfigParams.fromValue(config));
     }
-   
-    
+
+
     public configure(config: ConfigParams): void {
         super.configure(config);
     }
@@ -29,8 +29,8 @@ export class CommentsLambdaClientV1 extends CommandableLambdaClient implements I
             correlationId,
             {
                 filter: filter,
-                 paging: paging 
-                },
+                paging: paging
+            },
             callback
         );
     }
@@ -85,7 +85,7 @@ export class CommentsLambdaClientV1 extends CommandableLambdaClient implements I
         );
     }
 
-    addMemeToComment(correlationId: string, id: string, creator_id: string, meme_type: string, callback: (err: any, review: CommentV1) => void): void {
+    public addMemeToComment(correlationId: string, id: string, creator_id: string, meme_type: string, callback: (err: any, review: CommentV1) => void): void {
         let timing = this.instrument(correlationId, 'comments.add_comment_meme');
         this.callCommand(
             'add_comment_meme',
@@ -98,8 +98,8 @@ export class CommentsLambdaClientV1 extends CommandableLambdaClient implements I
             callback
         );
     }
-    
-    removeMemeFromComment(correlationId: string, id: string, creator_id: string, meme_type: string, callback: (err: any, review: CommentV1) => void): void {
+
+    public removeMemeFromComment(correlationId: string, id: string, creator_id: string, meme_type: string, callback: (err: any, review: CommentV1) => void): void {
         let timing = this.instrument(correlationId, 'comments.remove_comment_meme');
         this.callCommand(
             'remove_comment_meme',
@@ -113,17 +113,30 @@ export class CommentsLambdaClientV1 extends CommandableLambdaClient implements I
         );
     }
 
-    updateCommentState(correlationId: string, id: string, state: String, callback: (err: any, review: CommentV1) => void): void {
+    public updateCommentState(correlationId: string, id: string, state: String, callback: (err: any, review: CommentV1) => void): void {
         let timing = this.instrument(correlationId, 'comments.update_comment_state');
         this.callCommand(
             'update_comment_state',
             correlationId,
             {
                 id: id,
-                state:state
+                state: state
             },
             callback
         );
     }
-    
+
+    public markCommentAsDeleted(correlationId: string, id: string, callback: (err: any, review: CommentV1) => void): void {
+        let timing = this.instrument(correlationId, 'comments.mark_comment_deleted');
+        this.callCommand(
+            'mark_comment_deleted',
+            correlationId,
+            {
+                id: id
+            },
+            callback
+        );
+
+    }
+
 }

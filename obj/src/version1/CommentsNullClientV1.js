@@ -27,6 +27,9 @@ class CommentsNullClientV1 {
     updateCommentState(correlationId, id, state, callback) {
         callback(null, null);
     }
+    markCommentAsDeleted(correlationId, id, callback) {
+        callback(null, null);
+    }
 }
 exports.CommentsNullClientV1 = CommentsNullClientV1;
 //# sourceMappingURL=CommentsNullClientV1.js.map

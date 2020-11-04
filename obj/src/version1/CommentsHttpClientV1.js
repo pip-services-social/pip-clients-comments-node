@@ -54,6 +54,11 @@ class CommentsHttpClientV1 extends pip_services3_rpc_node_1.CommandableHttpClien
             state: state
         }, callback);
     }
+    markCommentAsDeleted(correlationId, id, callback) {
+        this.callCommand('mark_comment_deleted', correlationId, {
+            id: id
+        }, callback);
+    }
 }
 exports.CommentsHttpClientV1 = CommentsHttpClientV1;
 //# sourceMappingURL=CommentsHttpClientV1.js.map

@@ -10,7 +10,7 @@ export class CommentsHttpClientV1 extends CommandableHttpClient implements IComm
     public constructor() {
         super('v1/comments');
     }
-    
+
     public getComments(correlationId: string, filter: FilterParams, paging: PagingParams,
         callback: (err: any, page: DataPage<CommentV1>) => void): void {
         this.callCommand(
@@ -18,8 +18,8 @@ export class CommentsHttpClientV1 extends CommandableHttpClient implements IComm
             correlationId,
             {
                 filter: filter,
-                 paging: paging 
-                },
+                paging: paging
+            },
             callback
         );
     }
@@ -74,7 +74,7 @@ export class CommentsHttpClientV1 extends CommandableHttpClient implements IComm
         );
     }
 
-    addMemeToComment(correlationId: string, id: string, creator_id: string, meme_type: string, callback: (err: any, review: CommentV1) => void): void {
+    public addMemeToComment(correlationId: string, id: string, creator_id: string, meme_type: string, callback: (err: any, review: CommentV1) => void): void {
         this.callCommand(
             'add_comment_meme',
             correlationId,
@@ -87,7 +87,7 @@ export class CommentsHttpClientV1 extends CommandableHttpClient implements IComm
         );
     }
 
-    removeMemeFromComment(correlationId: string, id: string, creator_id: string, meme_type: string, callback: (err: any, review: CommentV1) => void): void {
+    public removeMemeFromComment(correlationId: string, id: string, creator_id: string, meme_type: string, callback: (err: any, review: CommentV1) => void): void {
         this.callCommand(
             'remove_comment_meme',
             correlationId,
@@ -100,16 +100,28 @@ export class CommentsHttpClientV1 extends CommandableHttpClient implements IComm
         );
     }
 
-    updateCommentState(correlationId: string, id: string, state: String, callback: (err: any, review: CommentV1) => void): void {
+    public updateCommentState(correlationId: string, id: string, state: String, callback: (err: any, review: CommentV1) => void): void {
         this.callCommand(
             'update_comment_state',
             correlationId,
             {
                 id: id,
-                state:state
+                state: state
             },
             callback
         );
+    }
+
+    public markCommentAsDeleted(correlationId: string, id: string, callback: (err: any, review: CommentV1) => void): void {
+        this.callCommand(
+            'mark_comment_deleted',
+            correlationId,
+            {
+                id: id
+            },
+            callback
+        );
+
     }
 
 }
